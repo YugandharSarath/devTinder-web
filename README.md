@@ -1,164 +1,145 @@
-# DevTinder
 
-- Create a Vite + React application
-- Remove unecessary code and create a Hello World app
-- Install Tailwind CSS
-- Install Daisy UI
-- Add NavBar component to App.jsx
-- Create a NavBar.jsx separate Component file
-- Install react router dom
-- Create BrowserRouter > Routes > Route=/ Body > RouteChildren
-- Create an Outlet in your Body Component
-- Create a footer
-- Create a Login Page
-- Install axios
-- CORS - install cors in backend => add middleware to with configurations: orgin, credentials: true
-- Whenever you're making API call so pass axios => { withCredentials: true }
-- install react-redux + @reduxjs/toolkit - https://redux-toolkit.js.org/tutorials/quick-start
-- configureStore => Provider => createSlice => add reducer to store
-- Add redux devtools in chrome
-- Login and see if your data is coming properly in the store
-- NavBar should update as soon as user logs in
-- Refactor our code to add constants file + create a components folder 
-- You should not be access other routes without login
-- If token is not present, redirect user to login page
-- Logout Feature
-- Get the feed and add the feed in th store
-- build the user card on feed
-- Edit Profile Feature
-- Show Toast Message on save of profile
-- New Page - See all my connections
-- New Page - See all my Conenction REquests
-- Feature - Accept/Reject connection request
-- Send/Ignore the user card from the feed 
-- Signup New User 
-- E2E testing
+---
 
+# DevTinder 🚀
 
-Body 
-    NavBar
-    Route=/  => Feed
-    Route=/login  => Login
-    Route=/connetions => Connections
-    Router=/profile => Profile
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE) [![Node.js](https://img.shields.io/badge/Node.js-16.17.0-brightgreen)](https://nodejs.org/) [![React](https://img.shields.io/badge/React-18-blue)](https://reactjs.org/) [![MongoDB](https://img.shields.io/badge/MongoDB-6.0-green)](https://www.mongodb.com/)
 
-# Deployment
+**DevTinder** is a social connection platform with real-time chat, connections, email notifications, and payments. Built with **React**, **Node.js**, **MongoDB**, and **Socket.io**.
 
-- Signup on AWS 
-- Launch instance
-- chmod 400 <secret>.pem
-- ssh -i "devTinder-secret.pem" ubuntu@ec2-43-204-96-49.ap-south-1.compute.amazonaws.com
-- Install Node version 16.17.0
-- Git clone
-- Frontend    
-    - npm install  -> dependencies install
-    - npm run build
-    - sudo apt update
-    - sudo apt install nginx
-    - sudo systemctl start nginx
-    - sudo systemctl enable nginx
-    - Copy code from dist(build files) to /var/www/html/
-    - sudo scp -r dist/* /var/www/html/
-    - Enable port :80 of your instance
-- Backend
-    - updated DB password
-    - allowed ec2 instance public IP on mongodb server
-    - npm intsall pm2 -g
-    - pm2 start npm --name "devTinder-backend" -- start
-    - pm2 logs
-    - pm2 list, pm2 flush <name> , pm2 stop <name>, pm2 delete <name>
-    - config nginx - /etc/nginx/sites-available/default
-    - restart nginx - sudo systemctl restart nginx
-    - Modify the BASEURL in frontend project to "/api"
+---
 
-# Nginx config
+## Features ✨
 
-    Frontend = http://43.204.96.49/
-    Backend = http://43.204.96.49:7777/
+* Authentication: Signup, Login, Logout
+* Protected routes & token-based access
+* Feed with user cards
+* Profile Management & Edit Profile
+* Connections: View, Accept/Reject, Send/Ignore
+* Real-time chat with online/offline status
+* Email notifications using **AWS SES**
+* Razorpay Payment Gateway integration
+* Daily cron jobs for notifications
+* Responsive UI with **Tailwind CSS** & **Daisy UI**
 
-    Domain name = devtinder.com => 43.204.96.49
+---
 
-    Frontend = devtinder.com
-    Backend = devtinder.com:7777 => devtinder.com/api
+## Tech Stack 🛠️
 
-    nginx config : 
+**Frontend:** React, Redux Toolkit, Tailwind CSS, Daisy UI, Axios, React Router
+**Backend:** Node.js, Express, MongoDB, Socket.io, Node-Cron
+**Payments:** Razorpay
+**Email:** AWS SES
+**Deployment:** AWS EC2, Nginx
+**Testing:** Jest, React Testing Library
 
-    server_name 43.204.96.49;
+---
 
-    location /api/ {
-        proxy_pass http://localhost:7777/;  # Pass the request to the Node.js app
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
+## Quick Start ⚡
 
-# Adding a Custom Domain name
-- purchased domain name from godaddy
-- signup on cloudflare & add a new domain name
-- change the nameservers on godaddy and point it to cloudflare
-- wait for sometime till your nameservers are updated ~15 minutes
-- DNS record: A devtinder.in 43.204.96.49
-- Enable SSL for website 
+### Frontend
 
-# Sending Emails via SES
-- Create a IAM user
-- Give Access to AmazonSESFullAccess
-- Amazon SES: Create an Identity
-- Verify your domain name
-- Verify an email address identity
-- Install AWS SDK - v3 
-- Code Example https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/javascriptv3/example_code/ses#code-examples
-- Setup SesClient
-- Access Credentials should be created in IAm under SecurityCredentials Tab
-- Add the credentials to the env file
-- Write code for SESClient
-- Write code for Sending email address
-- Make the email dynamic by passing more params to the run function
+```bash
+# Install dependencies
+npm install
 
-# Scheduling cron job in Node js
+# Start development server
+npm run dev
 
-- Installing node-cron
-- Learning about cron expressions syntax - crontab.guru
-- Schedule a job
-- date-fns
-- Find all the unique  email Id who have got connection Request in previous day
-- Send Email
-- Explore queue mechanim to send bulk emails
-- Amazon SES Bulk Emails
-- Make sendEmail function dynamic
-- bee-queue & bull npm packages
+# Build for production
+npm run build
+```
 
-# Razorpay payment Gateway integration
+### Backend
 
-- Sign up on Razorpay & complete KYC 
-- Cerated a UI for premium page
-- Creating an API for create order in backend
-- added my key and secret in env file
-- Intialized Razorpay in utils
-- creating order on Razorpay
-- create Schema and model
-- saved the order in payments collection
-- make the API dynamic
-- Setup RRazorpay webhook on your live APi
-- Ref - https://github.com/razorpay/razorpay-node/tree/master/documents
-- Ref - https://razorpay.com/docs/payments/server-integration/nodejs/integration-steps/#integrate-with-razorpay-payment-gateway
-- Ref - https://razorpay.com/docs/webhooks/validate-test/
-- Ref - https://razorpay.com/docs/webhooks/payloads/payments/
+```bash
+# Install dependencies
+npm install
 
-# RealTime Chat using Websocket(Socket.io)
-- Build the UI for a chat window on /chat/:targetUserId
-- Setup socket.io in backend
-- npm i socket.io
-- Setup frontend socket.io-client
-- Initialise the chat
-- createSocketConnection
-- Listen to events
-- Homework:  improve the UI
-- Homework: Fix Security Bug - auth in web ockets
-- Homework: Fix bug - If I'm not fried, then I should not be able to send message
-- Homework: feat: Show Green Symbol when online???? - [last Seen 2 hours ago]
-- Homework: Limit messages when fetching from DB
-- Project Ideas: Tic tac toe game
-- Project Idea 2 : Chess
+# Start server
+npm run start
+
+# Start with pm2 (production)
+pm2 start npm --name "devTinder-backend" -- start
+```
+
+---
+
+## Deployment 🌐
+
+### AWS EC2 & Nginx
+
+1. Launch EC2, SSH into instance:
+
+   ```bash
+   chmod 400 devTinder-secret.pem
+   ssh -i "devTinder-secret.pem" ubuntu@<EC2_IP>
+   ```
+2. Install Node.js, Git, Nginx
+3. Deploy frontend:
+
+   ```bash
+   npm run build
+   sudo scp -r dist/* /var/www/html/
+   sudo systemctl restart nginx
+   ```
+4. Deploy backend with **pm2**
+5. Configure Nginx for `/api` proxy
+6. Add custom domain via Cloudflare and enable SSL
+
+---
+
+## Email Setup 📧
+
+* AWS SES: Create IAM user, verify domain/email
+* Install AWS SDK v3
+* Setup dynamic email functions with credentials in `.env`
+
+---
+
+## Cron Jobs ⏰
+
+* Use `node-cron` for scheduling
+* Send daily email notifications
+* Optional: Queue mechanism for bulk emails (`bee-queue`, `bull`)
+
+---
+
+## Razorpay Payments 💳
+
+* Create backend order API
+* Initialize Razorpay with key & secret
+* Store orders in MongoDB
+* Webhook for payment verification
+
+---
+
+## Real-time Chat 💬
+
+* Socket.io backend & client setup
+* Features: Online status, last seen, restricted messages
+* Route: `/chat/:targetUserId`
+
+---
+
+## Testing 🧪
+
+* Jest & React Testing Library
+* Mock APIs and Redux store
+* Test login, feed, connections, profile, chat
+
+---
+
+## Project Ideas 🎮
+
+* Tic-Tac-Toe Game
+* Chess Game
+
+---
+
+## License 📄
+
+[MIT License](LICENSE)
+
+---
+
